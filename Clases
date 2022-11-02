@@ -1,0 +1,90 @@
+class Universidad:
+    def __init__(self, id: int, contrasena: str):
+        self.id = id
+        self.contrasena = contrasena
+
+
+class Materia:
+    def __init__(self, nombre: str, monitores: list, horarios: list, costo: float, cupos: list) -> None:
+        self.nombre = nombre
+        self.monitores = monitores
+        self.horarios = horarios
+        self.costo = costo
+        self.cupos = cupos
+
+
+class Asesoria:
+    def __init__(self) -> None:
+        pass
+
+    def iniciar_sesion(self, idUsuario: int, contrasena: str):
+        from BD_usuarios import lstUsuarios
+        for i in range(len(lstUsuarios)):
+            if idUsuario == lstUsuarios[i][0].id and contrasena == lstUsuarios[i][0].contrasena:
+                return True
+        return False
+
+    def materias(self, idUsuario):
+        from BD_usuarios import lstUsuarios
+        materias = []
+        for i in range(len(lstUsuarios)):
+            if idUsuario == lstUsuarios[i][0].id:
+                for j in range(len(lstUsuarios[i][1])):
+                    materias.append(lstUsuarios[i][1][j])
+            return materias
+
+    def seleccionar_asesoria(self, idUsuario, materia):
+        from BD_usuarios import lstUsuarios
+        auxMateria = self.materias(idUsuario)
+        for i in range(len(auxMateria)):
+            for j in range(len(lstUsuarios[i][1])):
+                if materia not in auxMateria and auxMateria[j].monitores == []:
+                    return "No hay monitores disponibles"
+                elif materia == auxMateria[j].nombre:
+                    return auxMateria[j].monitores
+        return False
+
+    def cupos_disponibles(self, idUsuario, materia):
+        from BD_usuarios import lstUsuarios
+        auxMateria = self.materias(idUsuario)
+        for i in range(len(lstUsuarios)):
+            if materia == auxMateria[i].nombre:
+                return auxMateria[i].cupos
+
+    def confirmar_seleccion(self, idUsuario, asesor, materia):
+        from BD_usuarios import lstUsuarios
+        auxMateria = self.materias(idUsuario)
+        for i in range(len(lstUsuarios)):
+            if materia == auxMateria[i].nombre:
+                auxMateria[i].cupos[asesor] = auxMateria[i].cupos[asesor] - 1
+                return auxMateria[i].cupos[asesor]
+
+    def verificar_horario_salon(self, idUsuario, materia):
+        from BD_usuarios import lstUsuarios
+        auxMateria = self.materias(idUsuario)
+        for i in range(len(auxMateria)):
+            if materia not in auxMateria and auxMateria[i].monitores == []:
+                return "No hay horarios disponibles"
+            elif materia == auxMateria[i].nombre:
+                return auxMateria[i].horarios
+
+    def agendar_asesoria(self, asesoria):
+        pass
+
+
+class Carrito:
+    def __init__(self, valor_total: int, cantidad_asesorias: int, asesorias_agendadas: int, valor_multa: int,
+                 asesorias_pagadas: int) -> None:
+        self.valor_total = valor_total
+        self.cantidad_asesorias = cantidad_asesorias
+        self.asesorias_agendadas = asesorias_agendadas
+        self.valor_multa = valor_multa
+        self.asesorias_pagadas = asesorias_pagadas
+
+    def pagar_asesoria(self, idUsuario, materia):
+        from BD_usuarios import lstUsuarios
+        auxMateria = self.materias(idUsuario)
+
+        # for i in range(len(lstUsuarios)):
+        if materia == auxMateria.nombre:
+            return auxMateria.costo
