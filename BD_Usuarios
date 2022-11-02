@@ -1,0 +1,21 @@
+from Clases import Universidad
+from Clases import Materia
+
+POO = Materia("Algoritmos y Programación Orientada a Objetos", ["Luis Suarez", "Pedro Pineda"],
+              ["15/11/2022 - 4-212", "31/10/2022 - 3-203"], 5000, [5, 5])
+requisitos = Materia("Ingeniería de Requisitos", ["Isabella Otomayo", "Rodolfo Hernández"],
+                     ["13/11/22 - 14-301", "14/11/22 - 15-204"], 5000, [5, 5])
+analisis = Materia("Análisis Geométrico", ["Álvaro Vidal", "Cristian García"],
+                   ["10/11/2022 - 13-403", "1/11/2022 - 13-205"], 5000, [5, 5])
+algebra = Materia("Álgebra Lineal", ["Jose Martínez", "Edison Restrepo"], ["9/11/2022 - 7-203", "2/11/2022 - 12-306"],
+                  5000, [5, 5])
+calculo = Materia("Cálculo Integral", ["Victor Velazquez", "Casimiro Buenavista"],
+                  ["8/11/2022 - 1-304", "3/11/2022 - 9-203"], 5000, [5, 5])
+procesos = Materia("Procesos de Negocios y Tecnologías de la Información", ["Esneider Rojas", "Luisa Pinilla"],
+                   ["6/11/2022 - 2-409", "5/11/2022 - 6-203"], 5000, [5, 5])
+matematicas = Materia("Matemáticas Discretas", ["María Poincaré", "Sofía Vidal"],
+                      ["3/11/2022 - 8-303", "10/11/2022 - 5-205"], 5000, [5, 5])
+
+lstUsuarios = [(Universidad(1, "123"), [POO, requisitos, analisis, algebra, procesos, matematicas]),
+               (Universidad(5, "1234"), [POO, requisitos, analisis, algebra, calculo, procesos, matematicas])]
+
