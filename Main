@@ -1,0 +1,62 @@
+from Clases import Asesoria
+
+print("1.Ingresar como monitor\n2.Ingresar como estudiante")
+respIngreso = int(input())
+if respIngreso == 1:
+    pass
+elif respIngreso == 2:
+    p = False
+    while p == False:
+        print("Ingrese su ID")
+        respId = int(input())
+        print("Ingrese su contraseña")
+        respCon = str(input())
+
+        if Asesoria().iniciar_sesion(respId, respCon) == True:
+            print("Has iniciado Sesion")
+            p = True
+        else:
+            print("No estas registrado en la base de datos")
+
+    print("Cuantas asesorias deseas programar?")
+    cantAsesorias = int(input())
+    for j in range(cantAsesorias):
+        k = False
+        while k == False:
+            print("")
+            print("Seleccione una materia")
+            for materia in range(len(Asesoria().materias(respId))):
+                print("-", materia, Asesoria().materias(respId)[materia].nombre)
+            respMateria = int(input())
+
+            lstMaterias = Asesoria().materias(respId)
+
+            materiaSelected = lstMaterias[respMateria]
+            if Asesoria().seleccionar_asesoria(respId, materiaSelected.nombre) is False:
+                print("Ingrese una materia valida")
+            else:
+                print("Monitores con sus horarios disponibles")
+                pepe = Asesoria().seleccionar_asesoria(respId, materiaSelected.nombre)
+                pepo = Asesoria().verificar_horario_salon(respId, materiaSelected.nombre)
+                pepa = Asesoria().cupos_disponibles(respId, materiaSelected.nombre)
+
+                for i in range(len(pepe)): print(f"{i} {pepe[i]}: {pepo[i]}. cupos: {materiaSelected.cupos[i]}")
+                print("Seleccione monitor")
+                respMon = int(input())
+                if materiaSelected.cupos[respMon] <= 0:
+                    print("Lo siento no hay cupos disponibles")
+                print("Desea cambiar la asesoria?\n1.Si\n2.No")
+                respCambio = int(input())
+                if respCambio == 2:
+                    if materiaSelected.cupos[respMon] <= 0:
+                        print("Lo siento no hay cupos disponibles")
+                    else:
+                        print("El costo es de:", materiaSelected.costo)
+                        print("Desea pagar su asesoria?")
+                        print("1.Si\n2.No")
+                        resp = int(input())
+                        if resp == 1:
+                            materiaSelected.cupos[respMon] = materiaSelected.cupos[respMon] - 1
+                            print("Recuerda que el pago se hace en la clase de la asesoria")
+                            k = True
+
